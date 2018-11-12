@@ -4,6 +4,25 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
   	
-  	<?php //include_once 'scripts.php'; ?>
+  	<script type="text/javascript">
+		$(function(){
+			$('body').on('click', '.del-row', function(e){
+				e.preventDefault();
+
+				var el = $(this);
+				el.parents('tr').remove();
+			})
+
+		});	
+
+		function add_feature() {
+			var feature  = '<tr>';
+				feature +=		'<td><input type="text" name="feature[]"></td>';
+				feature +=		'<td><input type="text" name="value[]"> &nbsp; <a href="#" class="del-row" title="Delete this row">X</a></td>';
+				feature +=	'</tr>';
+
+			$('#tbl_symptom').append(feature);
+		}	
+  	</script>
   </body>
 </html>

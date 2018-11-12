@@ -7,6 +7,11 @@ class Cbr extends CI_Controller {
 
 	public function index()
 	{
+		$this->load->view('home');
+	}
+
+	public function process()
+	{
 		$this->data = array(
 			'mati_total' =>	[
 				'tipe' => 'xyz1',
@@ -51,24 +56,30 @@ class Cbr extends CI_Controller {
 		);
 
 		$case1 = array(
-			'tipe' => 'abc4',
-			'tahun' => 2013,
-			'lampu_indikator' => 'off',
-			'speaker' => 'off',
+			'tipe' => $this->input->get('tipe'),
+			'tahun' => $this->input->get('tahun'),
+			'lampu_indikator' => $this->input->get('lampu_indikator'),
+			'speaker' => $this->input->get('speaker'),
+			'layar' => $this->input->get('layar'),
 		);
 
-		$bobot1 = array(
+		/*$bobot1 = array(
 			'tipe' => 1,
 			'tahun' => 1,
 			'lampu_indikator' => 5,
 			'speaker' => 5,
-		);
+		);*/
+
+		$bobot1 = array_map(function($x){
+			return (int) $x;
+		}, $this->input->get('weight') );
 
 		$similarity = array();
 
 		foreach ($this->data as $name => $problem) 
 		{
 			$temp = array(); // untuk menampung perhitungan sementara
+			$counter = 0;
 
 			foreach ($problem as $key => $value) 
 			{
@@ -76,24 +87,17 @@ class Cbr extends CI_Controller {
 				{
 					similar_text(strtolower( (string) $case1[$key] ), strtolower( (string) $value ), $percent);
 
-					$temp[] = $percent * $bobot1[$key];
+					$temp[] = $percent * $bobot1[$counter];
+					$counter++;
 				}
 			}
 
 			$similarity[$name] = array_sum($temp) / array_sum($bobot1);
 		}
 
-
-
-		echo '<pre>';
-		var_dump($similarity);
-
+ 	
 		$max_reasoning = array_search(max($similarity), $similarity);
-		$selected = $this->data[$max_reasoning];
-
-		var_dump($selected);
-		echo '</pre>';
-		exit() ;
-		$this->load->view('home');
+		$this->data['selected'] = $this->data[$max_reasoning];
+		$this->load->view('home', $this->data);
 	}
 }
