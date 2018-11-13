@@ -98,6 +98,7 @@ class Cbr extends CI_Controller {
  	
 		$max_reasoning = array_search(max($similarity), $similarity);
 		$this->data['selected'] = $this->data[$max_reasoning];
+		$this->data['similarity'] = max($similarity);
 		$this->load->view('home', $this->data);
 	}
 }
