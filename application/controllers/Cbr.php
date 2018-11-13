@@ -95,10 +95,31 @@ class Cbr extends CI_Controller {
 			$similarity[$name] = array_sum($temp) / array_sum($bobot1);
 		}
 
+		$table_compare = array();
+		$table_header = array();
+		$c = 0;
+		foreach ($similarity as $eu) 
+		{
+			$table_header[] = $eu; 
+			foreach ($similarity as $cek) 
+			{
+				$nilai = abs($eu - $cek);
+				$table_compare[$c][] = $nilai; 
+			}	
+
+			$c++;
+		}
+
+		// echo '<pre>';
+		// print_r($table_header);
+		// echo '</pre>';
+		// exit();
  	
 		$max_reasoning = array_search(max($similarity), $similarity);
 		$this->data['selected'] = $this->data[$max_reasoning];
 		$this->data['similarity'] = max($similarity);
+		$this->data['compare'] = $table_compare;
+		$this->data['header'] = $table_header;
 		$this->load->view('home', $this->data);
 	}
 }

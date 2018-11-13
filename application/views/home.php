@@ -4,7 +4,7 @@
 	<h1>Case-Based Reasoning: kerusakan TV SHARP</h1>
 	<br>
 	<div class="row">
-		<div class="col-6">
+		<div class="col">
 			<p>
 				<strong>Insert new problem (symptom)</strong>
 				<a href="<?php echo base_url('/') ?>" class="pull-right">Reset</a>
@@ -49,7 +49,7 @@
 
 		<?php if (isset($selected)): ?>
 			
-		<div class="col-6">
+		<div class="col">
 			<p>
 				<strong>Most similiar case </strong>
 			</p>
@@ -65,6 +65,30 @@
 					<td>Similarity</td>
 					<td><?php echo $similarity; ?></td>
 				</tr>
+			</table>
+		</div>
+
+		<div class="col">
+			<p><strong>Euclidean Distance (Alpha)</strong></p>
+			<table class="table">
+				<thead>
+					<tr>
+						<th>#</th>
+						<?php foreach ($header as $value): ?>
+							<th><?php echo $value; ?></th>
+						<?php endforeach ?>
+					</tr>
+				</thead>
+				<tbody>
+				<?php foreach ($compare as $key => $value): ?>
+					<tr>
+						<th><?php echo $header[$key]; ?></th>
+						<?php foreach ($value as $el): ?>
+							<td><?php echo $el; ?></td>
+						<?php endforeach ?>
+					</tr>					
+				<?php endforeach ?>
+				</tbody>
 			</table>
 		</div>
 
