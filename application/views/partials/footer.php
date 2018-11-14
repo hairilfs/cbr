@@ -19,8 +19,9 @@
 
 		function add_feature() {
 			var feature  = '<tr>';
-				feature +=		'<td><input type="text" name="feature[]"></td>';
-				feature +=		'<td><input type="text" name="value[]"> &nbsp; <a href="#" class="del-row" title="Delete this row">X</a></td>';
+				feature +=		'<td><input type="text" name="feature_new[]"></td>';
+				feature +=		'<td><input type="text" name="value_new[]"></td>';
+				feature +=		'<td><input type="text" name="weight_new[]"> &nbsp; <a href="#" class="del-row" title="Delete this row">X</a></td>';
 				feature +=	'</tr>';
 
 			$('#tbl_symptom').append(feature);

@@ -77,6 +77,19 @@ class Cbr extends CI_Controller {
 			'layar' => $this->input->get('layar'),
 		);
 
+		if ($this->input->get('feature_new')) 
+		{
+			$value_new = $this->input->get('value_new');
+			$weight_new = $this->input->get('weight_new');
+			foreach ($this->input->get('feature_new') as $key => $value) 
+			{
+				$new_key = str_replace(' ', '_', strtolower($value));
+				$case1[$new_key] = 
+			}
+			var_dump($this->input->get('feature_new'));
+			exit('hey');	
+		}
+
 		/*$bobot1 = array(
 			'tipe' => 1,
 			'tahun' => 1,
