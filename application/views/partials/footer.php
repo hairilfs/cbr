@@ -13,6 +13,8 @@
 				el.parents('tr').remove();
 			})
 
+		  	$('[data-toggle="tooltip"]').tooltip()
+
 		});	
 
 		function add_feature() {

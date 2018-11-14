@@ -5,56 +5,70 @@ class Cbr extends CI_Controller {
 
 	public $data;
 
+	public function __construct($value='')
+	{
+		parent::__construct();
+
+		if ( ! isset($_SESSION['kasus']) ) 
+		{
+			$kasus = array(
+				'mati_total' =>	[
+					'tipe' => 'xyz1',
+					'tahun' => 2011,
+					'lampu_indikator' => 'off',
+					'speaker' => 'off',
+					'layar' => 'off',
+					'solusi' => 'Ganti mesin',
+				],
+
+				'suara_hilang' => [
+					'tipe' => 'xyz2',
+					'tahun' => 2012,
+					'lampu_indikator' => 'on',
+					'speaker' => 'off',
+					'layar' => 'on',
+					'solusi' => 'Ganti speaker',
+				],
+
+				'layar_blank' => [
+					'tipe' => 'abc1',
+					'tahun' => 2012,
+					'lampu_indikator' => 'on',
+					'speaker' => 'on',
+					'layar' => 'off',
+					'solusi' => 'Ganti power supply',
+				],
+
+				'layar_bergaris' => [
+					'tipe' => 'abc1',
+					'tahun' => 2012,
+					'lampu_indikator' => 'off',
+					'speaker' => 'on',
+					'layar' => 'on',
+					'solusi' => 'Ganti layar',
+				],
+
+				'gambar_buruk' => [
+					'tipe' => 'abc2',
+					'tahun' => 2010,
+					'lampu_indikator' => 'on',
+					'speaker' => 'on',
+					'layar' => 'on',
+					'solusi' => 'Ganti antena',
+				],
+			);
+
+			$this->session->set_userdata('kasus', $kasus);
+		}
+	}
+
 	public function index()
 	{
-		$this->load->view('home');
+		$this->load->view('home', $this->data);
 	}
 
 	public function process()
 	{
-		$this->data = array(
-			'mati_total' =>	[
-				'tipe' => 'xyz1',
-				'tahun' => 2011,
-				'lampu_indikator' => 'off',
-				'speaker' => 'off',
-				'solusi' => 'Ganti mesin',
-			],
-
-			'suara_hilang' => [
-				'tipe' => 'xyz2',
-				'tahun' => 2012,
-				'lampu_indikator' => 'on',
-				'speaker' => 'off',
-				'solusi' => 'Ganti speaker',
-			],
-
-			'layar_blank' => [
-				'tipe' => 'abc1',
-				'tahun' => 2012,
-				'lampu_indikator' => 'on',
-				'speaker' => 'on',
-				'solusi' => 'Ganti power supply',
-			],
-
-			'layar_bergaris' => [
-				'tipe' => 'abc1',
-				'tahun' => 2012,
-				'lampu_indikator' => 'off',
-				'speaker' => 'on',
-				'solusi' => 'Ganti layar',
-			],
-
-			'gambar_buruk' => [
-				'tipe' => 'abc2',
-				'tahun' => 2010,
-				'lampu_indikator' => 'on',
-				'speaker' => 'on',
-				'solusi' => 'Ganti antena',
-			],
-
-		);
-
 		$case1 = array(
 			'tipe' => $this->input->get('tipe'),
 			'tahun' => $this->input->get('tahun'),
@@ -76,7 +90,7 @@ class Cbr extends CI_Controller {
 
 		$similarity = array();
 
-		foreach ($this->data as $name => $problem) 
+		foreach ($this->session->userdata('kasus') as $name => $problem) 
 		{
 			$temp = array(); // untuk menampung perhitungan sementara
 			$counter = 0;
@@ -98,9 +112,9 @@ class Cbr extends CI_Controller {
 		$table_compare = array();
 		$table_header = array();
 		$c = 0;
-		foreach ($similarity as $eu) 
+		foreach ($similarity as $name => $eu) 
 		{
-			$table_header[] = $eu; 
+			$table_header[] = ['label' => $name, 'value' => $eu]; 
 			foreach ($similarity as $cek) 
 			{
 				$nilai = abs($eu - $cek);
@@ -108,15 +122,10 @@ class Cbr extends CI_Controller {
 			}	
 
 			$c++;
-		}
-
-		// echo '<pre>';
-		// print_r($table_header);
-		// echo '</pre>';
-		// exit();
+		}	
  	
 		$max_reasoning = array_search(max($similarity), $similarity);
-		$this->data['selected'] = $this->data[$max_reasoning];
+		$this->data['selected'] = $this->session->userdata('kasus')[$max_reasoning];
 		$this->data['similarity'] = max($similarity);
 		$this->data['compare'] = $table_compare;
 		$this->data['header'] = $table_header;
