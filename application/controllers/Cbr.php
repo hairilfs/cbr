@@ -12,50 +12,115 @@ class Cbr extends CI_Controller {
 		if ( ! isset($_SESSION['kasus']) ) 
 		{
 			$kasus = array(
-				'mati_total' =>	[
-					'tipe' => 'xyz1',
-					'tahun' => 2011,
-					'lampu_indikator' => 'off',
-					'speaker' => 'off',
-					'layar' => 'off',
-					'solusi' => 'Ganti mesin',
+				'MATI_TOTAL' =>	
+				[
+					'LCD' => 'LC32M400',
+					'LAMPU_INDIKATOR' => 'OFF',
+					'TEGANGAN_POWER_SUPPLY'	=> 0,
+					'BACKLIGHT'	=> 'OFF',
+					'SUARA'	=> 'OFF',
+					'GAMBAR' => 'OFF',
+					'SOLUSI' => 'GANTI POWER SUPPLY',
 				],
 
-				'suara_hilang' => [
-					'tipe' => 'xyz2',
-					'tahun' => 2012,
-					'lampu_indikator' => 'on',
-					'speaker' => 'off',
-					'layar' => 'on',
-					'solusi' => 'Ganti speaker',
+				'LAYAR_BLANK' => 
+				[
+					'LCD' => 'LC32M400',
+					'LAMPU_INDIKATOR' => 'ON',
+					'TEGANGAN_POWER_SUPPLY' => 12,
+					'BACKLIGHT' => 'OFF',
+					'SUARA' => 'ON',
+					'GAMBAR' => 'ON',
+					'SOLUSI' => 'GANTI LAMPU BACKLIGHT',
 				],
 
-				'layar_blank' => [
-					'tipe' => 'abc1',
-					'tahun' => 2012,
-					'lampu_indikator' => 'on',
-					'speaker' => 'on',
-					'layar' => 'off',
-					'solusi' => 'Ganti power supply',
+				'LAYAR_BERGARIS' => 
+				[
+					'LCD' => 'LC32M400',
+					'LAMPU_INDIKATOR' => 'ON',
+					'TEGANGAN_POWER_SUPPLY' => 12,
+					'BACKLIGHT' => 'ON',
+					'SUARA' => 'ON',
+					'GAMBAR' => 'GARIS',
+					'SOLUSI' => 'GANTI PANEL TFT',
 				],
 
-				'layar_bergaris' => [
-					'tipe' => 'abc1',
-					'tahun' => 2012,
-					'lampu_indikator' => 'off',
-					'speaker' => 'on',
-					'layar' => 'on',
-					'solusi' => 'Ganti layar',
+				'LOADING_LAMA' => 
+				[
+					'LCD' =>  'LC32M400',
+					'LAMPU_INDIKATOR' => 'ON',
+					'TEGANGAN_POWER_SUPPLY' => 3,
+					'BACKLIGHT' => 'ON',
+					'SUARA' => 'OFF',
+					'GAMBAR' => 'OFF',
+					'SOLUSI' => 'GANTI PROCESSING UNIT',
 				],
 
-				'gambar_buruk' => [
-					'tipe' => 'abc2',
-					'tahun' => 2010,
-					'lampu_indikator' => 'on',
-					'speaker' => 'on',
-					'layar' => 'on',
-					'solusi' => 'Ganti antena',
+				'SUARA' => 
+				[
+					'LCD' => 'LC32M400',
+					'LAMPU_INDIKATOR' => 'ON', 
+					'TEGANGAN_POWER_SUPPLY' => 12,
+					'BACKLIGHT' => 'ON', 
+					'SUARA' => 'OFF',
+					'GAMBAR' => 'ON', 
+					'SOLUSI' => 'GANTI SPEAKER',
 				],
+
+				'GAMBAR_BERBAYANG' => 
+				[
+					'LCD' => 'LC32M400',
+					'LAMPU_INDIKATOR' => 'ON',
+					'TEGANGAN_POWER_SUPPLY' => 12,
+					'BACKLIGHT' => 'ON',
+					'SUARA' => 'ON',
+					'GAMBAR' => 'BERBAYANG',
+					'SOLUSI' => 'GANTI PANEL TFT',
+				],
+				
+				'TIDAK_BISA_PINDAH_CHANEL' => 
+				[
+					'LCD' => 'LC32M400',
+					'LAMPU_INDIKATOR' => 'BERKEDIP',
+					'TEGANGAN_POWER_SUPPLY' => 12,
+					'BACKLIGHT' => 'ON',
+					'SUARA' => 'BESAR KECIL SENDIRI',
+					'SOLUSI' => 'FLASH FIRMWARE',
+				],
+
+				'GAMBAR_BURAM' => 
+				[
+					'LCD' => 'LC32M400',
+					'LAMPU_INDIKATOR' => 'ON', 
+					'TEGANGAN_POWER_SUPPLY' => 12,
+					'BACKLIGHT' => 'ON', 
+					'SUARA' => 'ON', 
+					'GAMBAR' => 'BURAM',
+					'SOLUSI' => 'ANTENA TV',
+				],
+				
+				'MATI_HIDUP' => 
+				[
+					'LCD' => 'LC32M400',
+					'LAMPU_INDIKATOR' => 'BERKEDIP',
+					'TEGANGAN_POWER_SUPPLY' => 12,
+					'BACKLIGHT' => 	'ON OFF',
+					'SUARA' => 'ON',
+					'GAMBAR' => 'MATI HIDUP',
+					'SOLUSI' => 'GANTI INVERTER ',
+				],
+
+				'GAMBAR_PELANGI' => 
+				[
+					'LCD' => 'LC32M400',
+					'LAMPU_INDIKATOR' => 'ON',
+					'TEGANGAN_POWER_SUPPLY' => 12,
+					'BACKLIGHT' => 'ON',
+					'SUARA' => 'ON',
+					'GAMBAR' => 'WARNA WARNI',
+					'SOLUSI' => 'BERSIHKAN KABEL LVDS',
+				],
+
 			);
 
 			$this->session->set_userdata('kasus', $kasus);
@@ -77,17 +142,29 @@ class Cbr extends CI_Controller {
 			'layar' => $this->input->get('layar'),
 		);
 
+		$bobot1 = array_map(function($x){
+			return (int) $x;
+		}, $this->input->get('weight') );
+
 		if ($this->input->get('feature_new')) 
 		{
 			$value_new = $this->input->get('value_new');
 			$weight_new = $this->input->get('weight_new');
+
 			foreach ($this->input->get('feature_new') as $key => $value) 
 			{
 				$new_key = str_replace(' ', '_', strtolower($value));
-				$case1[$new_key] = 
+				$case1[$new_key] = $value_new[$key];
+				$bobot1[] = $weight_new[$key];
+
+				if ( ! isset($this->data->userdata('kasus')[$value]) ) 
+				{
+					
+				}
 			}
-			var_dump($this->input->get('feature_new'));
-			exit('hey');	
+
+			// var_dump($this->input->get('feature_new'));
+			// exit('hey');
 		}
 
 		/*$bobot1 = array(
@@ -96,10 +173,6 @@ class Cbr extends CI_Controller {
 			'lampu_indikator' => 5,
 			'speaker' => 5,
 		);*/
-
-		$bobot1 = array_map(function($x){
-			return (int) $x;
-		}, $this->input->get('weight') );
 
 		$similarity = array();
 
