@@ -4,6 +4,8 @@
 	<h1>Case-Based Reasoning: kerusakan TV SHARP</h1>
 	<br>
 
+	<p><a href="<?php base_url('/cbr/destroySession'); ?>">Reset all data</a></p>
+
 	<div class="accordion" id="accordionCBR">
 	  <div class="card">
 	    <div class="card-header" id="headingOne">
@@ -15,7 +17,7 @@
 	    </div>
 
 	    <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionCBR">
-	      <div class="card-body" style="max-height: 800px; overflow: auto;">
+	      <div class="card-body" style="max-height: 600px; overflow: auto;">
 	      	<table class="table table-bordered table-condensed">
 	      		<thead>
 	      			<tr>
@@ -45,7 +47,7 @@
 	      					}
 	      					?>	
 	      				</td>
-	      				<td><?php echo $value['solusi']; ?></td>
+	      				<td><?php echo $value['SOLUSI']; ?></td>
 	      			</tr>
 
 	      			<?php $counter++; ?>
@@ -66,38 +68,46 @@
 	    <div id="collapseTwo" class="collapse show" aria-labelledby="headingTwo" data-parent="#accordionCBR">
 	      <div class="card-body">
 			<form action="<?php echo base_url('/cbr/process'); ?>" method="GET">
-		        <table class="table table-bordered" id="tbl_symptom">
-		          <tr>
-		            <th>Fitur</th>
-		            <th>Nilai</th>
-		            <th>Bobot</th>
-		          </tr>
-		          <tr>
-		            <td>Tipe</td>
-		            <td><input type="text" name="tipe" value="<?php echo $_GET['tipe'] ?? ''; ?>"></td>
-		            <td><input type="text" name="weight[]" value="1" required></td>
-		          </tr>
-		          <tr>
-		            <td>Tahun</td>
-		            <td><input type="text" name="tahun" value="<?php echo $_GET['tahun'] ?? ''; ?>"></td>
-		            <td><input type="text" name="weight[]" value="1" required></td>
-		          </tr>
-		          <tr>
-		            <td>Lampu Indikator</td>
-		            <td><input type="text" name="lampu_indikator" value="<?php echo $_GET['lampu_indikator'] ?? ''; ?>"></td>
-		            <td><input type="text" name="weight[]" value="10" required></td>
-		          </tr>
-		          <tr>
-		            <td>Speaker</td>
-		            <td><input type="text" name="speaker" value="<?php echo $_GET['speaker'] ?? ''; ?>"></td>
-		            <td><input type="text" name="weight[]" value="10" required></td>
-		          </tr>
-		          <tr>
-		            <td>Layar</td>
-		            <td><input type="text" name="layar" value="<?php echo $_GET['layar'] ?? ''; ?>"></td>
-		            <td><input type="text" name="weight[]" value="10" required></td>
-		          </tr>
-		        </table>
+				<div class="table-responsive">
+					<table class="table table-bordered" id="tbl_symptom">
+	          <tr>
+	            <th>Fitur</th>
+	            <th>Nilai</th>
+            <th>Bobot</th>
+	          </tr>
+	          <tr>
+	            <td>LCD</td>
+	            <td><input type="text" name="LCD" value="<?php echo $_GET['LCD'] ?? ''; ?>"></td>
+	            <td><input type="text" name="weight[]" value="1" required></td>
+	          </tr>
+	          <tr>
+	            <td>LAMPU_INDIKATOR</td>
+	            <td><input type="text" name="LAMPU_INDIKATOR" value="<?php echo $_GET['LAMPU_INDIKATOR'] ?? ''; ?>"></td>
+	            <td><input type="text" name="weight[]" value="1" required></td>
+	          </tr>
+	          <tr>
+	            <td>TEGANGAN_POWER_SUPPLY</td>
+	            <td><input type="text" name="TEGANGAN_POWER_SUPPLY" value="<?php echo $_GET['TEGANGAN_POWER_SUPPLY'] ?? ''; ?>"></td>
+	            <td><input type="text" name="weight[]" value="10" required></td>
+	          </tr>
+	          <tr>
+	            <td>BACKLIGHT</td>
+	            <td><input type="text" name="BACKLIGHT" value="<?php echo $_GET['BACKLIGHT'] ?? ''; ?>"></td>
+	            <td><input type="text" name="weight[]" value="10" required></td>
+	          </tr>
+	          <tr>
+	            <td>SUARA</td>
+	            <td><input type="text" name="SUARA" value="<?php echo $_GET['SUARA'] ?? ''; ?>"></td>
+	            <td><input type="text" name="weight[]" value="10" required></td>
+	          </tr>
+	          <tr>
+	            <td>GAMBAR</td>
+	            <td><input type="text" name="GAMBAR" value="<?php echo $_GET['GAMBAR'] ?? ''; ?>"></td>
+	            <td><input type="text" name="weight[]" value="10" required></td>
+	          </tr>
+	        </table>
+				</div>
+		        
 		        <button type="button" class="btn btn-secondary" onclick="return add_feature();">Tambah fitur</button>
 		        <button type="submit" class="btn btn-primary">Submit</button>
 		    </form>
@@ -122,27 +132,29 @@
 			      </table>
 
 			      <p><strong>Euclidean Distance (Alpha)</strong></p>
-			      <table class="table table-bordered table-condensed">
-			        <thead>
-			          <tr>
-			            <th>#</th>
-			            <?php foreach ($header as $value): ?>
-			              <th title="<?php echo $value['label'] ?>" data-toggle="tooltip"><?php echo $value['value']; ?></th>
-			            <?php endforeach ?>
-			          </tr>
-			        </thead>
-			        <tbody>
-			        <?php foreach ($compare as $key => $value): ?>
-			          <tr>
-			            <th title="<?php echo $header[$key]['label']; ?>" data-toggle="tooltip" data-placement="left"><?php echo $header[$key]['value']; ?></th>
-			            <?php foreach ($value as $el): ?>
-			              <td><?php echo $el; ?></td>
-			            <?php endforeach ?>
-			          </tr>         
-			        <?php endforeach ?>
-			        </tbody>
-			      </table>
-
+			      <div class="table-responsive">
+				      <table class="table table-bordered table-condensed">
+				        <thead>
+				          <tr>
+				            <th>#</th>
+				            <?php foreach ($header as $value): ?>
+				              <th title="<?php echo $value['label'] ?>" data-toggle="tooltip"><?php echo $value['value']; ?></th>
+				            <?php endforeach ?>
+				          </tr>
+				        </thead>
+				        <tbody>
+				        <?php foreach ($compare as $key => $value): ?>
+				          <tr>
+				            <th title="<?php echo $header[$key]['label']; ?>" data-toggle="tooltip" data-placement="left"><?php echo $header[$key]['value']; ?></th>
+				            <?php foreach ($value as $el): ?>
+				              <td><?php echo $el; ?></td>
+				            <?php endforeach ?>
+				          </tr>         
+				        <?php endforeach ?>
+				        </tbody>
+				      </table>
+			      </div>
+						
 			    <?php endif ?>
 	      </div>
 	    </div>

@@ -7,8 +7,11 @@ class Cbr extends CI_Controller {
 
 	public function __construct($value='')
 	{
-		parent::__construct();
+		parent::__construct();		
+	}
 
+	public function kasus()
+	{
 		if ( ! isset($_SESSION['kasus']) ) 
 		{
 			$kasus = array(
@@ -129,17 +132,20 @@ class Cbr extends CI_Controller {
 
 	public function index()
 	{
+		$this->kasus();
 		$this->load->view('home', $this->data);
 	}
 
 	public function process()
 	{
+		$this->kasus();
 		$case1 = array(
-			'tipe' => $this->input->get('tipe'),
-			'tahun' => $this->input->get('tahun'),
-			'lampu_indikator' => $this->input->get('lampu_indikator'),
-			'speaker' => $this->input->get('speaker'),
-			'layar' => $this->input->get('layar'),
+			'LCD' => $this->input->get('LCD'),
+			'LAMPU_INDIKATOR' => $this->input->get('LAMPU_INDIKATOR'),
+			'TEGANGAN_POWER_SUPPLY' => $this->input->get('TEGANGAN_POWER_SUPPLY'),
+			'BACKLIGHT' => $this->input->get('BACKLIGHT'),
+			'SUARA' => $this->input->get('SUARA'),
+			'GAMBAR' => $this->input->get('GAMBAR'),
 		);
 
 		$bobot1 = array_map(function($x){
@@ -216,5 +222,11 @@ class Cbr extends CI_Controller {
 		$this->data['compare'] = $table_compare;
 		$this->data['header'] = $table_header;
 		$this->load->view('home', $this->data);
+	}
+
+	public function destroySession()
+	{
+		$this->session->sess_destroy();
+		redirect('/');
 	}
 }
