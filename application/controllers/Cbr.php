@@ -1,13 +1,16 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
+use Phpml\Math\Distance\Euclidean;
+use Algenza\Cosinesimilarity\Cosine;
+
 class Cbr extends CI_Controller {
 
 	public $data;
 
 	public function __construct($value='')
 	{
-		parent::__construct();		
+		parent::__construct();
 	}
 
 	public function kasus()
@@ -81,7 +84,7 @@ class Cbr extends CI_Controller {
 					'SOLUSI' => 'GANTI PANEL TFT',
 				],
 				
-				'TIDAK_BISA_PINDAH_CHANEL' => 
+				'TIDAK_BISA_PINDAH_CHANNEL' => 
 				[
 					'LCD' => 'LC32M400',
 					'LAMPU_INDIKATOR' => 'BERKEDIP',
@@ -154,6 +157,7 @@ class Cbr extends CI_Controller {
 
 		if ($this->input->get('feature_new')) 
 		{
+			exit('sds');
 			$value_new = $this->input->get('value_new');
 			$weight_new = $this->input->get('weight_new');
 
@@ -191,14 +195,23 @@ class Cbr extends CI_Controller {
 			{
 				if ( isset($case1[$key]) ) // jika punya fitur yg sama, misalkan sama2 punya fitur 'tipe' 
 				{
-					similar_text(strtolower( (string) $case1[$key] ), strtolower( (string) $value ), $percent);
+					$x = array();
+					$x[] = alphabetValue($case1[$key]);
+					$x[] = alphabetValue($value);
 
-					$temp[] = $percent * $bobot1[$counter];
+					// $euclidean = new Euclidean();
+					// $x = $euclidean->distance([$case_text], [$case_kasus]);
+
+					$z = min($x) / max($x);
+					// var_dump(min($x));
+					// exit();
+					$temp[] = round($z , 2) * $bobot1[$counter];
 					$counter++;
 				}
 			}
 
 			$similarity[$name] = array_sum($temp) / array_sum($bobot1);
+			$similarity[$name] = round($similarity[$name],2);
 		}
 
 		$table_compare = array();
@@ -209,8 +222,10 @@ class Cbr extends CI_Controller {
 			$table_header[] = ['label' => $name, 'value' => $eu]; 
 			foreach ($similarity as $cek) 
 			{
-				$nilai = abs($eu - $cek);
-				$table_compare[$c][] = $nilai; 
+				$euclidean = new Euclidean();
+				$table_compare[$c][] = $euclidean->distance([$eu], [$cek]);
+				// $nilai = abs($eu - $cek);
+				// $table_compare[$c][] = $nilai;
 			}	
 
 			$c++;
@@ -221,7 +236,61 @@ class Cbr extends CI_Controller {
 		$this->data['similarity'] = max($similarity);
 		$this->data['compare'] = $table_compare;
 		$this->data['header'] = $table_header;
+
+		// var_dump($table_header); exit();
+		
+		// Cosine Similarity
+		$dx = $this->session->userdata('kasus');
+		$dx = array_map(function($x){
+			array_pop($x);
+			return $x;
+		}, $dx);
+
+		$dx['KASUS_BARU'] = $case1; 
+
+		$table_compare_cosine = array();
+		$table_header_cosine = array();
+		$c = 0;
+		foreach ($dx as $name => $cos) 
+		{
+			foreach ($dx as $cek) 
+			{	
+				// var_dump($cos, $cek);
+				// exit();
+				$x = array();
+				$x[0] = array_map(function($x){
+					return alphabetValue($x);
+				}, $cos);
+
+				$x[1] = array_map(function($x){
+					return alphabetValue($x);
+				}, $cek);
+
+				// $cosine = Cosine::similarity($vectorA, $vectorB);
+				$table_compare_cosine[$c][] = Cosine::similarity($x[0], $x[1]);
+			}
+
+			$table_header_cosine[] = ['label' => $name, 'value' => array_sum($table_compare_cosine[$c]) / count($table_compare_cosine[$c])]; 
+
+			$c++;
+		}
+
+		$this->data['compare_cosine'] = $table_compare_cosine;
+		$this->data['header_cosine'] = $table_header_cosine;
+
+		// var_dump($table_header_cosine[8]); exit();
+
+
+		// array_push($case1, $dx);
+		// echo '<pre>';
+		// print_r($dx);
+		// print_r($case1);
+		// echo '</pre>';
+		// exit();
+
 		$this->load->view('home', $this->data);
+
+
 	}
 
 	public function destroySession()

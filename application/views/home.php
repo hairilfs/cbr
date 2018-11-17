@@ -4,14 +4,14 @@
 	<h1>Case-Based Reasoning: kerusakan TV SHARP</h1>
 	<br>
 
-	<p><a href="<?php base_url('/cbr/destroySession'); ?>">Reset all data</a></p>
+	<!-- <p><a href="<?php echo base_url('/cbr/destroySession'); ?>">Reset all datas</a></p> -->
 
 	<div class="accordion" id="accordionCBR">
 	  <div class="card">
 	    <div class="card-header" id="headingOne">
 	      <h5 class="mb-0">
 	        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-	          Kasus-kasus sebelumnya
+	          Kasus-kasus sebelumnya <span class="badge badge-secondary">Data</span>
 	        </button>
 	      </h5>
 	    </div>
@@ -57,59 +57,58 @@
 	      </div>
 	    </div>
 	  </div>
-	  <div class="card">
+	  <div class="card" style="margin-bottom: 100px;">
 	    <div class="card-header" id="headingTwo">
 	      <h5 class="mb-0">
 	        <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-	          Kasus baru
+	          Kasus baru <span class="badge badge-primary">Here!</span>
 	        </button>
 	      </h5>
 	    </div>
 	    <div id="collapseTwo" class="collapse show" aria-labelledby="headingTwo" data-parent="#accordionCBR">
 	      <div class="card-body">
-			<form action="<?php echo base_url('/cbr/process'); ?>" method="GET">
-				<div class="table-responsive">
-					<table class="table table-bordered" id="tbl_symptom">
-	          <tr>
-	            <th>Fitur</th>
-	            <th>Nilai</th>
-            <th>Bobot</th>
-	          </tr>
-	          <tr>
-	            <td>LCD</td>
-	            <td><input type="text" name="LCD" value="<?php echo $_GET['LCD'] ?? ''; ?>"></td>
-	            <td><input type="text" name="weight[]" value="1" required></td>
-	          </tr>
-	          <tr>
-	            <td>LAMPU_INDIKATOR</td>
-	            <td><input type="text" name="LAMPU_INDIKATOR" value="<?php echo $_GET['LAMPU_INDIKATOR'] ?? ''; ?>"></td>
-	            <td><input type="text" name="weight[]" value="1" required></td>
-	          </tr>
-	          <tr>
-	            <td>TEGANGAN_POWER_SUPPLY</td>
-	            <td><input type="text" name="TEGANGAN_POWER_SUPPLY" value="<?php echo $_GET['TEGANGAN_POWER_SUPPLY'] ?? ''; ?>"></td>
-	            <td><input type="text" name="weight[]" value="10" required></td>
-	          </tr>
-	          <tr>
-	            <td>BACKLIGHT</td>
-	            <td><input type="text" name="BACKLIGHT" value="<?php echo $_GET['BACKLIGHT'] ?? ''; ?>"></td>
-	            <td><input type="text" name="weight[]" value="10" required></td>
-	          </tr>
-	          <tr>
-	            <td>SUARA</td>
-	            <td><input type="text" name="SUARA" value="<?php echo $_GET['SUARA'] ?? ''; ?>"></td>
-	            <td><input type="text" name="weight[]" value="10" required></td>
-	          </tr>
-	          <tr>
-	            <td>GAMBAR</td>
-	            <td><input type="text" name="GAMBAR" value="<?php echo $_GET['GAMBAR'] ?? ''; ?>"></td>
-	            <td><input type="text" name="weight[]" value="10" required></td>
-	          </tr>
-	        </table>
-				</div>
-		        
-		        <button type="button" class="btn btn-secondary" onclick="return add_feature();">Tambah fitur</button>
-		        <button type="submit" class="btn btn-primary">Submit</button>
+				<form action="<?php echo base_url('/cbr/process'); ?>" method="GET">
+					<div class="table-responsive">
+						<table class="table table-bordered" id="tbl_symptom">
+		          <tr>
+		            <th>Fitur</th>
+		            <th>Nilai</th>
+	            <th>Bobot</th>
+		          </tr>
+		          <tr>
+		            <td>LCD</td>
+		            <td><input type="text" name="LCD" value="<?php echo $_GET['LCD'] ?? ''; ?>"></td>
+		            <td><input type="text" name="weight[]" value="1" required></td>
+		          </tr>
+		          <tr>
+		            <td>LAMPU_INDIKATOR</td>
+		            <td><input type="text" name="LAMPU_INDIKATOR" value="<?php echo $_GET['LAMPU_INDIKATOR'] ?? ''; ?>"></td>
+		            <td><input type="text" name="weight[]" value="1" required></td>
+		          </tr>
+		          <tr>
+		            <td>TEGANGAN_POWER_SUPPLY</td>
+		            <td><input type="text" name="TEGANGAN_POWER_SUPPLY" value="<?php echo $_GET['TEGANGAN_POWER_SUPPLY'] ?? ''; ?>"></td>
+		            <td><input type="text" name="weight[]" value="10" required></td>
+		          </tr>
+		          <tr>
+		            <td>BACKLIGHT</td>
+		            <td><input type="text" name="BACKLIGHT" value="<?php echo $_GET['BACKLIGHT'] ?? ''; ?>"></td>
+		            <td><input type="text" name="weight[]" value="10" required></td>
+		          </tr>
+		          <tr>
+		            <td>SUARA</td>
+		            <td><input type="text" name="SUARA" value="<?php echo $_GET['SUARA'] ?? ''; ?>"></td>
+		            <td><input type="text" name="weight[]" value="10" required></td>
+		          </tr>
+		          <tr>
+		            <td>GAMBAR</td>
+		            <td><input type="text" name="GAMBAR" value="<?php echo $_GET['GAMBAR'] ?? ''; ?>"></td>
+		            <td><input type="text" name="weight[]" value="10" required></td>
+		          </tr>
+		        </table>
+					</div>
+	        <!-- <button type="button" class="btn btn-secondary" onclick="return add_feature();">Tambah fitur</button> -->
+	        <button type="submit" class="btn btn-primary">Submit</button>
 		    </form>
 
 		    <?php if (isset($selected)): ?>
@@ -131,7 +130,7 @@
 			        </tr>
 			      </table>
 
-			      <p><strong>Euclidean Distance (Alpha)</strong></p>
+			      <p><strong>Euclidean Distance</strong></p>
 			      <div class="table-responsive">
 				      <table class="table table-bordered table-condensed">
 				        <thead>
@@ -148,6 +147,31 @@
 				            <th title="<?php echo $header[$key]['label']; ?>" data-toggle="tooltip" data-placement="left"><?php echo $header[$key]['value']; ?></th>
 				            <?php foreach ($value as $el): ?>
 				              <td><?php echo $el; ?></td>
+				            <?php endforeach ?>
+				          </tr>         
+				        <?php endforeach ?>
+				        </tbody>
+				      </table>
+			      </div>
+
+			      <p><strong>Cosine Distance</strong></p>
+			      <div class="table-responsive">
+				      <table class="table table-bordered table-condensed">
+				        <thead>
+				          <tr>
+				            <th>#</th>
+				            <?php foreach ($header_cosine as $value): ?>
+				            	<?php //var_dump($value['value']); exit; ?>
+				              <th title="<?php echo $value['label'] ?>" data-toggle="tooltip"><?php echo round($value['value'], 4); ?></th>
+				            <?php endforeach ?>
+				          </tr>
+				        </thead>
+				        <tbody>
+				        <?php foreach ($compare_cosine as $key => $value): ?>
+				          <tr>
+				            <th title="<?php echo $header_cosine[$key]['label']; ?>" data-toggle="tooltip" data-placement="left"><?php echo round($header_cosine[$key]['value'], 4); ?></th>
+				            <?php foreach ($value as $el): ?>
+				              <td><?php echo round($el, 4); ?></td>
 				            <?php endforeach ?>
 				          </tr>         
 				        <?php endforeach ?>
